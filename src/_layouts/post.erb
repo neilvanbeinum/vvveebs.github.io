@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<img src=<%= resource.data.header_image %>/>
+<img src="<%= relative_url(resource.data.header_image) %>" />
 
 <h1><%= resource.data.title %></h1>
 
