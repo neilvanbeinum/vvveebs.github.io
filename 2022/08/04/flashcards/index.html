@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flashcards App - Iteration 1 | Your awesome title</title>
+
+<meta name="description" content="Write an awesome description for your new site here. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+
+<link rel="stylesheet" href="/_bridgetown/static/index.LKVN6NYQ.css" />
+<script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script>
+<script type="module">let lastmod = 0
+function startReloadConnection() {
+  const evtSource = new EventSource("/_bridgetown/live_reload")
+  evtSource.onmessage = event => {
+    if (event.data == "reloaded!") {
+      location.reload()
+    } else {
+      const newmod = Number(event.data)
+      if (lastmod > 0 && newmod > 0 && lastmod < newmod) {
+        location.reload()
+      } else {
+        lastmod = newmod
+      }
+    }
+  }
+  evtSource.onerror = event => {
+    if (evtSource.readyState === 2) {
+      // reconnect with new object
+      evtSource.close()
+      console.warn("Live reload: attempting to reconnect in 3 seconds...")
+
+      setTimeout(() => startReloadConnection(), 3000)
+    }
+  }
+}
+setTimeout(() => {
+  startReloadConnection()
+}, 500)
+</script>
+
+  </head>
+  <body class="post ">
+    <header>
+  vvveebs
+</header>
+
+<nav>
+  <ul>
+  </ul>
+</nav>
+
+
+    <main>
+      <img src=/images/flashcards_banner.jpg/>
+
+<h1>Flashcards App - Iteration 1</h1>
+
+<h3 id="what">What</h3>
+
+<p>This post outlines a simple app which lets you test your recall with flashcards - index cards with a test phrase written on one side with an answer on the reverse.</p>
+
+<p>In this first iteration, I totally ignored implementation of a set of cards and instead focused on trying to make the card look “realistic”.</p>
+
+<p>The result is totally useless for revision because there’s no ability to save your card - you can make one card on each visit only.</p>
+
+<p><img src="/images/flashcard-css-front.jpg" alt="&quot;Flashcards front&quot;" /></p>
+<h3 id="why">Why</h3>
+
+<p>Just <a href="https://syntax.fm/show/491/how-to-spark-your-imagination-and-get-excited-about-coding">For fun</a>.</p>
+<h3 id="implementation">Implementation</h3>
+
+<h4 id="images-and-fonts">Images and Fonts</h4>
+
+<p>I found a <a href="https://www.pexels.com/photo/brown-wooden-surface-139306/">free stock image of wood</a> to use as the background.</p>
+
+<p>I used <a href="https://inkscape.org/">Inkscape</a> to create an <a href="https://github.com/vvveebs/flashcards_css/blob/master/flashcard.svg">SVG image of an index card</a> to use as a background to the card <code class="highlighter-rouge">&lt;div&gt;</code>.</p>
+
+<p>I found a handwriting-y font I didn’t recognise called <a href="https://fonts.google.com/specimen/Patrick+Hand">‘Patrick Hand’</a> to use for the card “writing”.</p>
+
+<h4 id="3d-transformation">3D Transformation</h4>
+
+<p>I wanted to give the impression of the card being flipped by using a 3D CSS transform along the Y (up-down) axis.</p>
+
+<p>Users with vestibular motion disorders can be affected by apps making use of transformations like these. The <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"><code class="highlighter-rouge">prefers-reduced-motion</code></a> media feature should be used to reduce or remove motion for browsers with this setting applied. Here’s an example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@media (prefers-reduced-motion) {
+  .card {
+    transition: none;
+  }
+}
+</code></pre></div></div>
+
+<p>The “flipping” implementation has a few steps and uses some unusual CSS declarations. Important parts of the implementation are below:</p>
+
+<ul>
+  <li>Using a <code class="highlighter-rouge">&lt;div&gt;</code> to represent the card with two <code class="highlighter-rouge">&lt;input&gt;</code> child elements to represent the writing.</li>
+  <li>Applying absolute positioning and centering of the <code class="highlighter-rouge">&lt;input&gt;</code> elements, each with a rotation applied set so they “stick” to the front or back of the card and occupy the same central position on their face.</li>
+  <li>Styling both <code class="highlighter-rouge">&lt;input</code>&gt; elements so they do not show when facing away from the viewer, using <code class="highlighter-rouge">backface-visibility: hidden</code></li>
+  <li>Toggling a class on the card, which has a transformation rule applied to it, when a button is clicked</li>
+  <li>Setting <code class="highlighter-rouge">transform-style</code> on a containing <code class="highlighter-rouge">&lt;div</code>&gt; to <code class="highlighter-rouge">preserve-3d</code> so that child elements respect 3D space</li>
+  <li>Setting a suitable <code class="highlighter-rouge">perspective</code> value on the container give a sense of depth as the card goes through the transition. (Low values give strange distorted effects.)</li>
+</ul>
+
+<h3 id="result">Result</h3>
+
+<ul>
+  <li><a href="https://vvveebs.github.io/flashcards_css/">Flashcards app</a></li>
+  <li><a href="https://github.com/vvveebs/flashcards_css">Code repo</a></li>
+</ul>
+
+
+    </main>
+
+    <footer>
+</footer>
+
+  </body>
+</html>
