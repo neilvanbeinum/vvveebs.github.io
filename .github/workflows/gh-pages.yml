@@ -24,6 +24,8 @@ jobs:
       - run: yarn install
 
       - name: Build
+        env:
+          BRIDGETOWN_ENV: production
         run: bin/bridgetown deploy
 
       - name: Deploy
