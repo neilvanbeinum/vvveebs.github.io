@@ -2,7 +2,7 @@
 layout: post
 title: "Flashcards App - Iteration 1"
 date: 2022-08-04 13:03:57 +0300
-header_image: /images/flashcards_banner.jpg
+header_image: /images/flashcards-banner.jpg
 ---
 ### What
 
