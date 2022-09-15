@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flashcards App - Iteration 2 | Your awesome title</title>
+
+<meta name="description" content="Write an awesome description for your new site here. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+
+<link rel="stylesheet" href="/_bridgetown/static/index.PIFGLLFM.css" />
+<script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script>
+
+
+  </head>
+  <body class="post ">
+    <header>
+  vvveebs
+</header>
+
+<nav>
+  <ul>
+  </ul>
+</nav>
+
+
+    <main>
+      <img src="/images/flashcards-2-banner.jpg" />
+
+<h1>Flashcards App - Iteration 2</h1>
+
+<h3 id="what">What</h3>
+
+<p>This post outlines the second “iteration” of a Flashcards app.</p>
+
+<p>This iteration actually works compared to the <a href="/2022/08/04/flashcards/index.html">previous toy version</a>. You can create a deck of flashcards, and then test yourself on each card, flipping it between front and back.</p>
+
+<p>The state of your card deck is saved for your next visit.</p>
+
+<h3 id="implementation">Implementation</h3>
+
+<p>I wanted to stick to a minimal, vanilla Javascript implementation.</p>
+
+<p>I chose to use the <a href="https://shoelace.style/">Shoelace</a> web components library. Web components allow developers to create custom tags, for example a <code class="highlighter-rouge">&lt;my-button&gt;</code> element, with associated CSS and JS, scoped to that component. No framework is required.</p>
+
+<p>The following additional tools were used:</p>
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">Local Storage</a></li>
+  <li><a href="https://parceljs.org/">ParcelJS</a> JS build tool</li>
+  <li><a href="https://www.cypress.io/">Cypress</a> end-to-end testing</li>
+  <li><a href="https://jestjs.io">Jest</a> unit testing</li>
+  <li><a href="https://github.com/cure53/DOMPurify">dompurify</a> to sanitize user input</li>
+</ul>
+
+<h3 id="result">Result</h3>
+
+<p><img src="/images/flashcard-edit-front.jpg" alt="Add card front" />
+<img src="/images/flashcard-edit-back.jpg" alt="Add card back" />
+<img src="/images/flashcards-test.jpg" alt="Test" /></p>
+
+<ul>
+  <li><a href="https://vvveebs.github.io/flashcards/">Flashcards app</a></li>
+  <li><a href="https://github.com/vvveebs/flashcards">Code repo</a></li>
+</ul>
+
+
+    </main>
+
+    <footer>
+</footer>
+
+  </body>
+</html>
