@@ -7,7 +7,7 @@
 
 <meta name="description" content="Write an awesome description for your new site here. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
 
-<link rel="stylesheet" href="/_bridgetown/static/index.YFSA4JHK.css" />
+<link rel="stylesheet" href="/_bridgetown/static/index.NFG6GS6V.css" />
 <script src="/_bridgetown/static/index.ZZ7VVZDV.js" defer></script>
 
 
@@ -24,7 +24,7 @@
 
 
     <main>
-      <img src="" />
+      <img src="/images/hammock-banner.jpg" />
 
 <h1>Coding Study: Where to hang a hammock?</h1>
 
@@ -32,7 +32,7 @@
 
 <p>I recently enjoyed watching two YouTube videos from <a href="https://codefol.io/about">Noah Gibbs</a> on his ‘coding study’ concept.</p>
 
-<p>Noah’s work includes taking on challenges that sound extremely diificult like optimised Ruby compilation, so he must know more than a thing or two about writing software well.</p>
+<p>Noah’s work includes extremely diificult things like optimising Ruby compilers, so he must know more than a thing or two about writing software well.</p>
 
 <p>I felt inspired to do my own study to learn a bit from him. This post briefly outlines his concept and describes my own recent study.</p>
 
@@ -47,7 +47,9 @@
 
 <p>The concept is borrowed from the world of visual art. An artist doing a study will sketch an object or a scene relatively quickly in order to get better at a skill or technique. Some more technical goals may be to practice a new drawing technique; to focus on small details of an object to better understand it as a whole; or to focus on how multiple objects look when composed together. But there could be higher-level goals for the artist as well, such as to help reduce perfectionism by getting to “done” more quickly than normal; or to regain confidence if they’ve not drawn for a while.</p>
 
-<p>The idea behind a coding study is to take this concept and apply it to software engineering. I occasionally struggle with feeling somehow limited or mechanical during my programming so I really like the idea that we can view coding as more of a creative act.</p>
+<p>A coding study applies this concept to writing software. I occasionally struggle with feeling somehow limited or mechanical during my programming so I really like the idea that we can view coding as more of a creative act.</p>
+
+<p>Continuing with the sketch analogy, <em>the code is not meant to be perfect</em>.</p>
 
 <p>Noah suggests you decide four things before starting a study. Here they are with some examples from software development:</p>
 <ul>
@@ -67,9 +69,9 @@
 
 <h3 id="the-task-and-background">The task and background</h3>
 
-<p>I’m currently on holiday and staying in a bungalow. Yesterday morning, the owner strung up a hammock between two railings around the balcony outside.</p>
+<p>I’m currently on holiday and staying in a bungalow next to a very nice garden. Yesterday morning, the owner strung up a hammock between two railings on the patio.</p>
 
-<p>Here’s a picture of the balcony and hammock. Note that both railings have multiple points you could securely tie the hammock to.</p>
+<p>Here’s a picture of the patio and hammock. Note that both railings have multiple points you could securely tie the hammock to.</p>
 
 <p><img src="/images/hammock.jpg" alt="&quot;A hammock hung between two railings at right angles&quot;" /></p>
 
@@ -83,21 +85,23 @@
 
 <p>One hour.</p>
 
-<h2 id="what-happened">What happened</h2>
+<h3 id="what-happened">What happened</h3>
 
 <p>The first and simplest thing I wanted to find out was the number of possible combinations if the hammock could be stretched infinitely far. The lengths of the railings are unitless for simplicity because all of the attachment points on my balcony are evenly spaced. So the railing length is equal to the number of attachment points on it. The number of combinations is therefore found by simply multiplying the two railings lengths together.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RAIL_LENGTH_A = 12
 RAIL_LENGTH_B = 8
 
-puts RAIL_LENGTH_A * RAIL_LENGTH_B
+puts RAIL_LENGTH_A * RAIL_LENGTH_B  #=&gt; 96
 </code></pre></div></div>
 
-<p>Next, I wanted to allow the user to give an argument which is their ideal length for a hammock when its hung, and for the program to compute the number of hammock combinations which would result in a length that is “acceptable” to the user. I chose a range of acceptable values to be between one more or one less than the ideal. (Note that I thought for a moment about considering the curve of the hammock in my program logic but I knew this would go more into maths territory. Since that wasn’t part of the purpose, I discarded the idea.)</p>
+<p>That’s a lot of ways to hang a hammock! Of course, having the hammock too taught or too slack will result in an uncomfortable time for the customer one way or another. The real hammock experience is when you have a nice moderately-slack configuration.</p>
+
+<p>I wanted to allow the user to give an argument which is their ideal length for a hammock when its hung, and for the program to compute the number of hammock combinations which would result in a length that is “acceptable” to the user. I chose a range of acceptable values to be between one more or one less than the ideal. (Note that I thought for a moment about considering the curve of the hammock in my program logic but I knew this would go more into maths territory. Since that wasn’t part of the purpose, I discarded the idea.)</p>
 
 <p>To find the ideal combination count, I needed to repeatedly calculate the hammock length for each combination, compare it to the acceptable values, and count each time it falls within the range.</p>
 
-<p>How can the length for each combination be found? Well, the balcony railings are at right angles and of course a triangle is formed when the hammock is hung up. I Googled triangle maths and was reminded of the Pythagoras theorem for a right angled triangle. (Pythagoras must have been a big hammock user back in the day I guess? Probably where he came up with his best theorems.)</p>
+<p>How can the length for each combination be found? Well, the balcony railings are at right angles and of course a triangle is formed when the hammock is hung up. I Googled triangle maths and was reminded of the Pythagoras theorem for a right angled triangle. (Pythagoras must have been a big hammock user back in the day I guess? It’s probably where he came up with his best theorems.)</p>
 
 <p>The theorem uses squares, and for some reason I thought squares were done using the <code class="highlighter-rouge">^</code> operator. So when I tested <code class="highlighter-rouge">4^2</code> in the console I was surprised to get <code class="highlighter-rouge">6</code>. (After a peek at the Ruby docs, I see this is a bitwise exclusive OR operation, which will look at the binary for both values, and return the result of comparing each bit. <code class="highlighter-rouge">(0b0011 ^ 0b1101).to_s 2 # =&gt;  "1110"</code>.) Exponent maths is in fact done with the <code class="highlighter-rouge">**</code> method.</p>
 
@@ -139,17 +143,30 @@ end
 answers = consultant.combinations
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">#combinations</code> method returns a hash with entries that give us all of the relevant values to show the user.</p>
+<p>By this point, the hour was up.</p>
 
-<p>You can see the <a href="https://github.com/vvveebs/hammock_installation_consultant">hammock_installation_consultant repository</a> on Github].</p>
+<h3 id="program-output">Program output</h3>
 
-<p>By this point, the hour was up. This turned out to fit really well into one hour.</p>
+<p>Here’s an example execution of the final version of the program:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ruby hammock.rb 5
+
+Out of 96 possible combinations:
+There are 2 hammock configurations for your ideal length.
+There are also 12 other hammock configurations that are suboptional but which you may nonetheless find acceptable. Good day.
+</code></pre></div></div>
+
+<h3 id="code-repository">Code repository</h3>
+
+<p>You can find the <a href="https://github.com/vvveebs/hammock_installation_consultant"><code class="highlighter-rouge">hammock_installation_consultant</code> repository on Github</a>.</p>
 
 <h2 id="follow-up-thoughts">Follow-up thoughts</h2>
 
-<p>I wasn’t sure how far I’d get but this turned out to be really fun and I’m pretty satisfied with the result. I feel I met at one of the technical goals which was to learn more Ruby core methods. I was also extremely focused for the whole hour, so I feel I met that higher-level goal as well.</p>
+<p>I wasn’t sure how far I’d get but this turned out to be really fun and I’m pretty satisfied with the result. I feel I met at one of the technical goals which was to learn more Ruby core methods. Maybe most importantly, I was also extremely focused for the whole hour, so I feel I met that higher-level goal as well.</p>
 
 <p>I didn’t learn much about command line arguments, though. Raising an exception for invalid input, as I did, isn’t user-friendly! During the study, I reinforced my knowledge that I can access them using <code class="highlighter-rouge">ARGV</code> but I didn’t delve too deep into good practices after that. Maybe I’ll do a repeat of the study and focus more on this.</p>
+
+<p>The hammock idea could also be taken further for fun. As I mentioned earlier, I simplified the problem by ignoring the curvature of the hammock - my solution basically flattens everything onto a 2D plane, I think. Maybe you could do a calculation to find configurations where the hammock contacts the floor, and exclude those options from the calculation. Or you could start looking at accepting coordinate points that represent a top-down view of a field with randomly placed trees, and find configurations there.</p>
 
 <p>I’d like to do another study and I think I’ll mention this concept to other developers that I think would benefit from it.</p>
 
