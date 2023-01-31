@@ -27,9 +27,11 @@ The following additional tools were used:
 
 ### Result
 
-![Add card front](/images/flashcard-edit-front.jpg)
-![Add card back](/images/flashcard-edit-back.jpg)
-![Test](/images/flashcards-test.jpg)
+<div class="gallery">
+  <img src="/images/flashcard-edit-front.jpg" alt="" />
+  <img src="/images/flashcard-edit-back.jpg" alt="" />
+  <img src="/images/flashcards-test.jpg" alt="" />
+</div>
 
 - [Flashcards app](https://vvveebs.github.io/flashcards/)
 - [Code repo](https://github.com/vvveebs/flashcards)

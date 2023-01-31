@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Coding Study: Where to hang a hammock?"
+date: 2023-01-31 00:03:57 +0300
+header_image: /images/hammock-banner.jpg
+---
+
+## Intro
+
+I recently enjoyed watching two YouTube videos from [Noah Gibbs](https://codefol.io/about) on his 'coding study' concept.
+
+Noah's work includes extremely diificult things like optimising Ruby compilers, so he must know more than a thing or two about writing software well.
+
+I felt inspired to do my own study to learn a bit from him. This post briefly outlines his concept and describes my own recent study.
+
+To find out all about coding studies, you can check out these links (or do a search of his site):
+  - [Noah's blog post - 'A Simple Coding Study'](https://codefol.io/posts/a-simple-coding-exercise/)
+  - [Video of RubyConf 2019 - The Three Concrete Steps by Noah Gibbs](https://www.youtube.com/watch?v=33fAzjOTaDE)
+  - [Video of Noah's live example of a coding study to draw ASCII art](https://www.youtube.com/watch?v=c-ymcTlr4nU)
+
+## What is a coding study?
+
+The concept is borrowed from the world of visual art. An artist doing a study will sketch an object or a scene relatively quickly in order to get better at a skill or technique. Some more technical goals may be to practice a new drawing technique; to focus on small details of an object to better understand it as a whole; or to focus on how multiple objects look when composed together. But there could be higher-level goals for the artist as well, such as to help reduce perfectionism by getting to "done" more quickly than normal; or to regain confidence if they've not drawn for a while.
+
+A coding study applies this concept to writing software. I occasionally struggle with feeling somehow limited or mechanical during my programming so I really like the idea that we can view coding as more of a creative act.
+
+Continuing with the sketch analogy, _the code is not meant to be perfect_.
+
+Noah suggests you decide four things before starting a study. Here they are with some examples from software development:
+ - a tool - a programming language, perhaps with the addition of a library or framework
+ - a task - a problem to solve or explore. A standard challenge might be something like testing a string for being a palindrome, but we're encouraged to look at the real world to find our own tasks.
+ - a purpose - such as to practice writing shorter methods, or find out more about string processing methods, and so on. This is how you see the study fit into your overall development practice.
+ - a deadline - in his video Noah used one hour
+
+The rest of this post outlines a study I recently did using a task I chose from the real world, and summarises my follow-up thoughts.
+
+## Hammock Combinations study
+
+### The tool
+
+Ruby 3.2
+
+### The task and background
+
+I'm currently on holiday and staying in a bungalow next to a very nice garden. Yesterday morning, the owner strung up a hammock between two railings on the patio.
+
+Here's a picture of the patio and hammock. Note that both railings have multiple points you could securely tie the hammock to.
+
+!["A hammock hung between two railings at right angles"](/images/hammock.jpg)
+
+I thought it would be fun to write a command-line program that can find all possible combinations for the hammock when given a user preference for how long they want the hammock to be when hung.
+
+### The purpose
+
+Get more familiarity with core Ruby methods. Get better at writing a command-line app. Gain confidence with my ability to focus on coding.
+
+### The deadline
+
+One hour.
+
+### What happened
+
+The first and simplest thing I wanted to find out was the number of possible combinations if the hammock could be stretched infinitely far. The lengths of the railings are unitless for simplicity because all of the attachment points on my balcony are evenly spaced. So the railing length is equal to the number of attachment points on it. The number of combinations is therefore found by simply multiplying the two railings lengths together.
+
+```
+RAIL_LENGTH_A = 12
+RAIL_LENGTH_B = 8
+
+puts RAIL_LENGTH_A * RAIL_LENGTH_B  #=> 96
+```
+
+That's a lot of ways to hang a hammock! Of course, having the hammock too taught or too slack will result in an uncomfortable time for the customer one way or another. The real hammock experience is when you have a nice moderately-slack configuration.
+
+I wanted to allow the user to give an argument which is their ideal length for a hammock when its hung, and for the program to compute the number of hammock combinations which would result in a length that is "acceptable" to the user. I chose a range of acceptable values to be between one more or one less than the ideal. (Note that I thought for a moment about considering the curve of the hammock in my program logic but I knew this would go more into maths territory. Since that wasn't part of the purpose, I discarded the idea.)
+
+To find the ideal combination count, I needed to repeatedly calculate the hammock length for each combination, compare it to the acceptable values, and count each time it falls within the range.
+
+How can the length for each combination be found? Well, the balcony railings are at right angles and of course a triangle is formed when the hammock is hung up. I Googled triangle maths and was reminded of the Pythagoras theorem for a right angled triangle. (Pythagoras must have been a big hammock user back in the day I guess? It's probably where he came up with his best theorems.)
+
+The theorem uses squares, and for some reason I thought squares were done using the `^` operator. So when I tested `4^2` in the console I was surprised to get `6`. (After a peek at the Ruby docs, I see this is a bitwise exclusive OR operation, which will look at the binary for both values, and return the result of comparing each bit. `(0b0011 ^ 0b1101).to_s 2 # =>  "1110"`.) Exponent maths is in fact done with the `**` method.
+
+With the addition of the Ruby `Enumerable#count` method, I coded the main calculation for this problem. This code below was the main output from this version. It includes my own train-of-thought comments at the time and some print statements for debugging:
+
+```
+ideal_length = Integer(ARGV[0])
+
+raise ArgumentError, "No ideal hammock length supplied" unless ideal_length
+
+RAIL_A_COORDS = (1..RAIL_LENGTH_A).to_a
+RAIL_B_COORDS = (1..RAIL_LENGTH_B).to_a
+
+ALL_COMBINATIONS = RAIL_A_COORDS.product(RAIL_B_COORDS)
+
+acceptable_lengths = (ideal_length-1..ideal_length+1)
+
+combinations = ALL_COMBINATIONS.count do |a_length, b_length|
+  # Uhh how do I do squaring...
+
+  # NOT ^ which is a bitwise operation
+
+  hammock_length = Math.sqrt(a_length**2 + b_length**2)
+
+  acceptable = acceptable_lengths.cover? hammock_length
+
+  puts ({ a_length:, b_length:, hammock_length:, acceptable: }).inspect
+
+  acceptable
+end
+```
+
+Not included above are some final print statements which output strings to the command line telling the user about the results.
+
+The next version modified and extended the idea so the user sees more of a breakdown of the stats: the count of all combinations, the number of perfect hammock configurations and the number of acceptable-but-not-perfect combinations. Each of these values is calculated inside the iteration and added to a hash for the printing statements to grab values from later.
+
+I found I had about ten minutes left of the hour by this point. The file was purely imperative top-to-bottom code, so I thought I would tuck things into a class. The core logic is the same as what I've already described so I won't reproduce it here. But the API for the class looks like this:
+
+```
+consultant = HammockConsultant.new(ideal_length, RAIL_LENGTH_A, RAIL_LENGTH_B)
+answers = consultant.combinations
+```
+
+By this point, the hour was up.
+
+### Program output
+
+Here's an example execution of the final version of the program:
+
+```
+$ ruby hammock.rb 5
+
+Out of 96 possible combinations:
+There are 2 hammock configurations for your ideal length.
+There are also 12 other hammock configurations that are suboptional but which you may nonetheless find acceptable. Good day.
+```
+
+### Code repository
+
+You can find the [`hammock_installation_consultant` repository on Github](https://github.com/vvveebs/hammock_installation_consultant).
+
+## Follow-up thoughts
+
+I wasn't sure how far I'd get but this turned out to be really fun and I'm pretty satisfied with the result. I feel I met one of the technical goals which was to learn more Ruby core methods. Maybe most importantly, I was also extremely focused for the whole hour, so I feel I met that higher-level goal as well.
+
+I didn't learn much about command line arguments, though. Raising an exception for invalid input, as I did, isn't user-friendly! During the study, I reinforced my knowledge that I can access them using `ARGV` but I didn't delve too deep into good practices after that. I could have skipped defining the class and done that instead, as using objects wasn't part of the purpose. Maybe I'll do another study including this as a goal.
+
+The hammock problem can be reduced to quite a generic geometry problem and could be taken in several directions. As I mentioned earlier, I simplified the problem by ignoring the curvature of the hammock - my solution basically flattens everything onto a 2D plane. Maybe you could do a calculation to find configurations where the hammock contacts the floor, and exclude those options from the calculation. Or you could start looking at other configurations in a 3D space if the attachment points extended upwards as well as horizontally.
+
+I'd like to do another study and I think I'll mention this concept to other developers that I think would benefit from it.

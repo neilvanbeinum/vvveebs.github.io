@@ -96,17 +96,20 @@ img {
   max-width: 100%;
 }
 
-p img {
+img {
   box-shadow: 4px 2px 2px gray;
+}
+pre {
+  overflow: scroll;
 }
 
 @media screen and (min-width: 600px) {
-  p:has(img) {
+  .gallery {
     display: flex;
     justify-content: space-around;
   }
 
-  p img {
+  .gallery img {
     max-width: 20%;
   }
 }
